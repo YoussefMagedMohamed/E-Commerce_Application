@@ -4,10 +4,12 @@ import { bootstrap } from "./src/bootstrap.js";
 const app = express();
 const port = 3000;
 
+app.use(express.json());
+
 // Database connection
 dbConnection();
 
 // Bootstrap
-bootstrap(app)
+bootstrap(app);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
