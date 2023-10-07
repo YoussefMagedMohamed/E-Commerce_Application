@@ -22,7 +22,8 @@ const getAllCategories = catchError(async (req, res, next) => {
 const getOneCategory = catchError(async (req, res, next) => {
   let { id } = req.params;
   let category = await categoryModel.findById(id);
-  res.status(201).json({ message: "Success", category });
+  !category && next(new AppError("Category Not Found", 404));
+  category && res.status(201).json({ message: "Success", category });
 });
 
 // Update Category
