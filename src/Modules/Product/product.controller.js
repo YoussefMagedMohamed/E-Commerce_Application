@@ -1,4 +1,5 @@
 import { productModel } from "../../../Database/Models/product.model.js";
+import { ApiFeatures } from "../../Utils/ApiFeatures.js";
 import { AppError } from "../../Utils/AppError.js";
 import { catchError } from "../../Utils/catchError.js";
 import slugify from "slugify";
@@ -13,8 +14,14 @@ const addProduct = catchError(async (req, res, next) => {
 
 // Get All Products
 const getAllProducts = catchError(async (req, res, next) => {
-  let products = await productModel.find();
-  res.status(201).json({ message: "Success", products });
+  let apiFeatures = new ApiFeatures(productModel.find(), req.query)
+    .paginate()
+    .filter()
+    .search()
+    .sort()
+    .selectedFields();
+  let products = await apiFeatures.mongooseQuery;
+  res.status(201).json({ message: "Success", CurrentPage: apiFeatures.CurrentPage, products });
 });
 
 // Get Specific Product

@@ -1,4 +1,5 @@
 import { subCategoryModel } from "../../../Database/Models/subCategory.model.js";
+import { ApiFeatures } from "../../Utils/ApiFeatures.js";
 import { AppError } from "../../Utils/AppError.js";
 import { catchError } from "../../Utils/catchError.js";
 import slugify from "slugify";
@@ -13,7 +14,13 @@ const addSubCategory = catchError(async (req, res, next) => {
 
 // Get All SubCategories
 const getAllSubCategories = catchError(async (req, res, next) => {
-  let subCategories = await subCategoryModel.find();
+  let apiFeatures = new ApiFeatures(subCategoryModel.find(), req.query)
+    .paginate()
+    .filter()
+    .search()
+    .sort()
+    .selectedFields();
+  let subCategories = await apiFeatures.mongooseQuery;
   res.status(201).json({ message: "Success", subCategories });
 });
 

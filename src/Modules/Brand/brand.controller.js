@@ -1,4 +1,5 @@
 import { brandModel } from "../../../Database/Models/brand.model.js";
+import { ApiFeatures } from "../../Utils/ApiFeatures.js";
 import { AppError } from "../../Utils/AppError.js";
 import { catchError } from "../../Utils/catchError.js";
 import slugify from "slugify";
@@ -13,7 +14,13 @@ const addBrand = catchError(async (req, res, next) => {
 
 // Get All Brands
 const getAllBrands = catchError(async (req, res, next) => {
-  let brands = await brandModel.find();
+  let apiFeatures = new ApiFeatures(brandModel.find(), req.query)
+    .paginate()
+    .filter()
+    .search()
+    .sort()
+    .selectedFields();
+  let brands = await apiFeatures.mongooseQuery;
   res.status(201).json({ message: "Success", brands });
 });
 
@@ -44,10 +51,4 @@ const deleteBrand = catchError(async (req, res, next) => {
   brand && res.status(201).json({ message: "Success", brand });
 });
 
-export {
-  addBrand,
-  getAllBrands,
-  getOneBrand,
-  deleteBrand,
-  updateBrand,
-};
+export { addBrand, getAllBrands, getOneBrand, deleteBrand, updateBrand };

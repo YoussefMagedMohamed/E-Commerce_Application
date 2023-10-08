@@ -1,4 +1,5 @@
 import { categoryModel } from "../../../Database/Models/category.model.js";
+import { ApiFeatures } from "../../Utils/ApiFeatures.js";
 import { AppError } from "../../Utils/AppError.js";
 import { catchError } from "../../Utils/catchError.js";
 import slugify from "slugify";
@@ -14,7 +15,13 @@ const addCategory = catchError(async (req, res, next) => {
 
 // Get All Categories
 const getAllCategories = catchError(async (req, res, next) => {
-  let categories = await categoryModel.find();
+  let apiFeatures = new ApiFeatures(categoryModel.find(), req.query)
+    .paginate()
+    .filter()
+    .search()
+    .sort()
+    .selectedFields();
+  let categories = await apiFeatures.mongooseQuery;
   res.status(201).json({ message: "Success", categories });
 });
 
