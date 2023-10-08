@@ -2,6 +2,7 @@ import { globalError } from "./Middleware/globalErrorMiddleware.js";
 import { AppError } from "./Utils/AppError.js";
 import categoryRouter from "./Modules/Category/category.routes.js";
 import subCategoryRouter from "./Modules/SubCategory/subCategory.routes.js";
+import brandRouter from "./Modules/Brand/brand.routes.js";
 
 export const bootstrap = (app) => {
   // Category route
@@ -9,6 +10,9 @@ export const bootstrap = (app) => {
 
   // SubCategory route
   app.use("/api/v1/subCategories", subCategoryRouter);
+
+  // Brand route
+  app.use("/api/v1/brands", brandRouter);
 
   app.get("/", (req, res) => res.send("Hello World!"));
   app.use("*", (req, res, next) => {
