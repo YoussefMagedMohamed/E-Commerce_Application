@@ -3,6 +3,7 @@ import { AppError } from "./Utils/AppError.js";
 import categoryRouter from "./Modules/Category/category.routes.js";
 import subCategoryRouter from "./Modules/SubCategory/subCategory.routes.js";
 import brandRouter from "./Modules/Brand/brand.routes.js";
+import productRouter from "./Modules/Product/product.routes.js";
 
 export const bootstrap = (app) => {
   // Category route
@@ -13,6 +14,9 @@ export const bootstrap = (app) => {
 
   // Brand route
   app.use("/api/v1/brands", brandRouter);
+
+  // Product route
+  app.use("/api/v1/products", productRouter);
 
   app.get("/", (req, res) => res.send("Hello World!"));
   app.use("*", (req, res, next) => {
