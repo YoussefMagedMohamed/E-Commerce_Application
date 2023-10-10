@@ -20,4 +20,9 @@ const categorySchema = new Schema(
   { timestamps: true }
 );
 
+categorySchema.post("init" , function(doc) {
+  doc.image =  process.env.BASE_URL+"category/" + doc.image;
+  console.log(doc);
+})
+
 export const categoryModel = model("category", categorySchema);

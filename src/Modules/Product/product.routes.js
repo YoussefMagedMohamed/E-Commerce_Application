@@ -1,9 +1,12 @@
 import express from "express";
 import * as product from "./product.controller.js";
+import { uploadMixOfFiles } from "../../Multer/multer.js";
 
 const productRouter = express.Router();
 
-productRouter.route("/").post(product.addProduct).get(product.getAllProducts);
+let arrFields = [{ name: 'imgCover', maxCount: 1 }, { name: 'images', maxCount: 20 }]
+
+productRouter.route("/").post(uploadMixOfFiles(arrFields,"product"),product.addProduct).get(product.getAllProducts);
 
 productRouter
   .route("/:id")

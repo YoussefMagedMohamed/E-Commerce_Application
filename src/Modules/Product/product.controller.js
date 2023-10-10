@@ -6,6 +6,8 @@ import slugify from "slugify";
 
 // Add New Product
 const addProduct = catchError(async (req, res, next) => {
+  req.body.imgCover = req.files.imgCover[0].filename;
+  req.body.images = req.files.images.map((file) => file.filename);
   req.body.slug = slugify(req.body.title);
   const product = new productModel(req.body);
   await product.save();
@@ -21,7 +23,11 @@ const getAllProducts = catchError(async (req, res, next) => {
     .sort()
     .selectedFields();
   let products = await apiFeatures.mongooseQuery;
-  res.status(201).json({ message: "Success", CurrentPage: apiFeatures.CurrentPage, products });
+  res.status(201).json({
+    message: "Success",
+    CurrentPage: apiFeatures.CurrentPage,
+    products,
+  });
 });
 
 // Get Specific Product

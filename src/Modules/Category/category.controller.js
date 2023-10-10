@@ -6,6 +6,7 @@ import slugify from "slugify";
 
 // Add New Category
 const addCategory = catchError(async (req, res, next) => {
+  req.body.image = req.file.filename;
   req.body.slug = slugify(req.body.name);
   const category = new categoryModel(req.body);
   await category.save();
@@ -22,7 +23,11 @@ const getAllCategories = catchError(async (req, res, next) => {
     .sort()
     .selectedFields();
   let categories = await apiFeatures.mongooseQuery;
-  res.status(201).json({ message: "Success", categories });
+  res.status(201).json({
+    message: "Success",
+    CurrentPage: apiFeatures.CurrentPage,
+    categories,
+  });
 });
 
 // Get Specific Category

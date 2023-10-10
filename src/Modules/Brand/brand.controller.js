@@ -6,6 +6,7 @@ import slugify from "slugify";
 
 // Add New Brand
 const addBrand = catchError(async (req, res, next) => {
+  req.body.logo = req.file.filename;
   req.body.slug = slugify(req.body.name);
   const brand = new brandModel(req.body);
   await brand.save();
@@ -21,7 +22,9 @@ const getAllBrands = catchError(async (req, res, next) => {
     .sort()
     .selectedFields();
   let brands = await apiFeatures.mongooseQuery;
-  res.status(201).json({ message: "Success", brands });
+  res
+    .status(201)
+    .json({ message: "Success", CurrentPage: apiFeatures.CurrentPage, brands });
 });
 
 // Get Specific Brand

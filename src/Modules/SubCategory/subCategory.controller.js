@@ -21,7 +21,7 @@ const getAllSubCategories = catchError(async (req, res, next) => {
     .sort()
     .selectedFields();
   let subCategories = await apiFeatures.mongooseQuery;
-  res.status(201).json({ message: "Success", subCategories });
+  res.status(201).json({ message: "Success", CurrentPage : apiFeatures.CurrentPage, subCategories });
 });
 
 // Get Specific SubCategory

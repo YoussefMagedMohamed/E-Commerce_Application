@@ -2,12 +2,13 @@ import express from "express";
 import * as category from "./category.controller.js";
 import { validate } from "../../Middleware/validate.js";
 import { addCategoryValidation, deleteCategoryValidation, updateCategoryValidation } from "./category.validation.js";
+import { uploadSingleFile } from "../../Multer/multer.js";
 
 const categoryRouter = express.Router();
 
 categoryRouter
   .route("/")
-  .post(validate(addCategoryValidation),category.addCategory)
+  .post(uploadSingleFile("image" , "category"),validate(addCategoryValidation),category.addCategory)
   .get(category.getAllCategories);
 
 categoryRouter
