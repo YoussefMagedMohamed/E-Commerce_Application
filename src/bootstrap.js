@@ -4,6 +4,7 @@ import categoryRouter from "./Modules/Category/category.routes.js";
 import subCategoryRouter from "./Modules/SubCategory/subCategory.routes.js";
 import brandRouter from "./Modules/Brand/brand.routes.js";
 import productRouter from "./Modules/Product/product.routes.js";
+import userRouter from "./Modules/User/user.routes.js";
 
 export const bootstrap = (app) => {
   // Category route
@@ -17,6 +18,9 @@ export const bootstrap = (app) => {
 
   // Product route
   app.use("/api/v1/products", productRouter);
+
+  // User route
+  app.use("/api/v1/users", userRouter);
 
   app.get("/", (req, res) => res.send("Hello World!"));
   app.use("*", (req, res, next) => {
