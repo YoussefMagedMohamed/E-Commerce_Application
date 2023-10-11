@@ -6,6 +6,7 @@ import brandRouter from "./Modules/Brand/brand.routes.js";
 import productRouter from "./Modules/Product/product.routes.js";
 import userRouter from "./Modules/User/user.routes.js";
 import authRouter from "./Modules/Auth/auth.routes.js";
+import reviewRouter from "./Modules/Review/review.routes.js";
 
 export const bootstrap = (app) => {
   // Category route
@@ -25,6 +26,9 @@ export const bootstrap = (app) => {
 
   // Auth route
   app.use("/api/v1/auth", authRouter);
+
+  // Review route
+  app.use("/api/v1/reviews", reviewRouter);
 
   app.get("/", (req, res) => res.send("Hello World!"));
   app.use("*", (req, res, next) => {

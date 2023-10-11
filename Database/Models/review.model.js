@@ -2,7 +2,7 @@ import mongoose, { Schema, model } from "mongoose";
 
 const reviewSchema = new Schema(
   {
-    text: {
+    comment: {
       type: String,
       required: true,
       trim: true,
@@ -25,5 +25,9 @@ const reviewSchema = new Schema(
   },
   { timestamps: true }
 );
+
+reviewSchema.pre(['find', 'findOne'] , function () {
+  this.populate('user' , "name");
+})
 
 export const reviewModel = model("review", reviewSchema);
