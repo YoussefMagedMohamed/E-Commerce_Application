@@ -2,7 +2,7 @@ import { userModel } from "../../../Database/Models/user.model.js";
 import { ApiFeatures } from "../../Utils/ApiFeatures.js";
 import { AppError } from "../../Utils/AppError.js";
 import { catchError } from "../../Utils/catchError.js";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 
 // Add New User
 const addUser = catchError(async (req, res, next) => {
@@ -46,9 +46,14 @@ const updateUser = catchError(async (req, res, next) => {
 // Change User Password
 const changeUserPassword = catchError(async (req, res, next) => {
   let { id } = req.params;
-  let user = await userModel.findByIdAndUpdate(id, {password : req.body.password}, {
-    new: true,
-  });
+  req.body.passwordChangedAt = Date.now();
+  let user = await userModel.findByIdAndUpdate(
+    id,
+    { password: req.body.password },
+    {
+      new: true,
+    }
+  );
   !user && next(new AppError("User Not Found", 404));
   user && res.status(201).json({ message: "Success", user });
 });
@@ -61,4 +66,11 @@ const deleteUser = catchError(async (req, res, next) => {
   user && res.status(201).json({ message: "Success", user });
 });
 
-export { addUser, getAllUsers, getOneUser, deleteUser, updateUser , changeUserPassword };
+export {
+  addUser,
+  getAllUsers,
+  getOneUser,
+  deleteUser,
+  updateUser,
+  changeUserPassword,
+};
