@@ -74,12 +74,22 @@ const productSchema = new Schema(
       min: 0,
     },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true}}
 );
 
-productSchema.post("init" , function(doc) {
-  doc.imgCover =  process.env.BASE_URL+"product/" + doc.imgCover;
-  doc.images =  doc.images.map(elm => process.env.BASE_URL+"product/"+elm)
+productSchema.post("init", function (doc) {
+  doc.imgCover = process.env.BASE_URL + "product/" + doc.imgCover;
+  doc.images = doc.images.map((elm) => process.env.BASE_URL + "product/" + elm);
+});
+
+productSchema.virtual("Reviews", {
+  ref: "review",
+  localField: "_id",
+  foreignField: "product",
+});
+
+productSchema.pre(/^find/ , function () {
+  this.populate('Reviews');
 })
 
 export const productModel = model("product", productSchema);
