@@ -47,13 +47,9 @@ const updateUser = catchError(async (req, res, next) => {
 const changeUserPassword = catchError(async (req, res, next) => {
   let { id } = req.params;
   req.body.passwordChangedAt = Date.now();
-  let user = await userModel.findByIdAndUpdate(
-    id,
-    { password: req.body.password },
-    {
-      new: true,
-    }
-  );
+  let user = await userModel.findByIdAndUpdate(id, req.body, {
+    new: true,
+  });
   !user && next(new AppError("User Not Found", 404));
   user && res.status(201).json({ message: "Success", user });
 });

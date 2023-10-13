@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
 
 const userSchema = new Schema(
@@ -18,9 +18,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    passwordChangedAt: {
-      type: Date,
-    },
+    passwordChangedAt: Date,
     role: {
       type: String,
       enum: ["admin", "user"],
@@ -38,6 +36,14 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    addresses: [
+      {
+        city: String,
+        street: String,
+        phone: String,
+      },
+    ],
+    // wishlist: [{ type: mongoose.SchemaType.ObjectId, ref: "product" }],
   },
   { timestamps: true }
 );

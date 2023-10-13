@@ -1,7 +1,7 @@
 import express from "express";
 import * as product from "./product.controller.js";
 import { uploadMixOfFiles } from "../../Multer/multer.js";
-import { allowedTo } from "../Auth/auth.controller.js";
+import { allowedTo, protectedRoutes } from "../Auth/auth.controller.js";
 
 const productRouter = express.Router();
 
@@ -12,7 +12,7 @@ let arrFields = [
 
 productRouter
   .route("/")
-  .post(uploadMixOfFiles(arrFields, "product"), product.addProduct)
+  .post(protectedRoutes,uploadMixOfFiles(arrFields, "product"), product.addProduct)
   .get(product.getAllProducts);
 
 productRouter

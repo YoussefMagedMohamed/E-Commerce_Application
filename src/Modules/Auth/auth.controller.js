@@ -45,20 +45,29 @@ export const protectedRoutes = catchError(async (req, res, next) => {
 
   // Verify Token
   let decoded = await jwt.verify(token, "SignUpToken");
-  console.log(decoded);
 
   // Check User Exists
   let user = await userModel.findById(decoded.id);
-  if (!user) return next(new AppError("Invalid Token", 401));
-  console.log(user.passwordChangedAt);
+  if (!user) return next(new AppError("User Not Found", 401));
+
+  // Check Token Expiration
+  if (user.passwordChangedAt) {
+    let changePasswordDate = parseInt(user.passwordChangedAt.getTime() / 1000);
+    if (changePasswordDate > decoded.iat)
+      return next(new AppError("Password Changed , Please SignIn Again", 401));
+  }
+
+  req.user = user;
+  next();
 });
 
 // Authorization
 export const allowedTo = (...roles) => {
   console.log(roles);
   return catchError(async (req, res, next) => {
-    if (!roles.includes(req.user.role)) return next(AppError("You are not allowed to access this Route", 401));
-    next()
+    if (!roles.includes(req.user.role))
+      return next(AppError("You are not allowed to access this Route", 401));
+    next();
   });
 };
 
