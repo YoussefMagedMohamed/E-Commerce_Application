@@ -9,6 +9,7 @@ import authRouter from "./Modules/Auth/auth.routes.js";
 import reviewRouter from "./Modules/Review/review.routes.js";
 import addressRouter from "./Modules/Address/address.routes.js";
 import couponRouter from "./Modules/Coupon/coupon.routes.js";
+import cartRouter from "./Modules/Cart/cart.routes.js";
 
 export const bootstrap = (app) => {
   // Category route
@@ -40,6 +41,9 @@ export const bootstrap = (app) => {
 
   // Coupon route
   app.use("/api/v1/coupons", couponRouter);
+
+  // Cart route
+  app.use("/api/v1/carts", cartRouter);
 
   app.get("/", (req, res) => res.send("Hello World!"));
   app.use("*", (req, res, next) => {
