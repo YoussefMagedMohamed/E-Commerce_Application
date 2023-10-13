@@ -12,13 +12,18 @@ let arrFields = [
 
 productRouter
   .route("/")
-  .post(protectedRoutes,uploadMixOfFiles(arrFields, "product"), product.addProduct)
+  .post(
+    protectedRoutes,
+    allowedTo("admin", "user"),
+    uploadMixOfFiles(arrFields, "product"),
+    product.addProduct
+  )
   .get(product.getAllProducts);
 
 productRouter
   .route("/:id")
-  .put(product.updateProduct)
-  .delete(product.deleteProduct)
+  .put(protectedRoutes, allowedTo("admin"), product.updateProduct)
+  .delete(protectedRoutes, allowedTo("admin"), product.deleteProduct)
   .get(product.getOneProduct);
 
 export default productRouter;
