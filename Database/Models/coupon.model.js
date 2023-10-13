@@ -6,9 +6,11 @@ const couponSchema = new Schema(
       type: String,
       required: true,
       trim: true,
+      unique: true,
     },
     expires: {
       type: Date,
+      required: true,
     },
     discount: {
       type: Number,
