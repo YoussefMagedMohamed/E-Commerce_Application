@@ -31,6 +31,9 @@ export const bootstrap = (app) => {
   // Review route
   app.use("/api/v1/reviews", reviewRouter);
 
+  // Wishlist route
+  // app.use("/api/v1/wishlist", wishlistRouter);
+
   // Address route
   app.use("/api/v1/addresses", addressRouter);
 

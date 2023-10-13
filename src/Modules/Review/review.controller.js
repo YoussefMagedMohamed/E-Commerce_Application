@@ -18,7 +18,10 @@ const addReview = catchError(async (req, res, next) => {
 
 // Get All Reviews
 const getAllReviews = catchError(async (req, res, next) => {
-  let apiFeatures = new ApiFeatures(reviewModel.find(), req.query)
+  let apiFeatures = new ApiFeatures(
+    reviewModel.find().populate("user"),
+    req.query
+  )
     .paginate()
     .filter()
     .search()
@@ -35,7 +38,7 @@ const getAllReviews = catchError(async (req, res, next) => {
 // Get Specific Review
 const getOneReview = catchError(async (req, res, next) => {
   let { id } = req.params;
-  let review = await reviewModel.findById(id);
+  let review = await reviewModel.findById(id).populate("user");
   !review && next(new AppError("Review Not Found", 404));
   review && res.status(201).json({ message: "Success", review });
 });
