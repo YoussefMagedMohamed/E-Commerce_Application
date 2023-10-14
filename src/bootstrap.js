@@ -10,6 +10,7 @@ import reviewRouter from "./Modules/Review/review.routes.js";
 import addressRouter from "./Modules/Address/address.routes.js";
 import couponRouter from "./Modules/Coupon/coupon.routes.js";
 import cartRouter from "./Modules/Cart/cart.routes.js";
+import orderRouter from "./Modules/Order/order.routes.js";
 
 export const bootstrap = (app) => {
   // Category route
@@ -44,6 +45,9 @@ export const bootstrap = (app) => {
 
   // Cart route
   app.use("/api/v1/carts", cartRouter);
+
+  // Order route
+  app.use("/api/v1/orders", orderRouter);
 
   app.get("/", (req, res) => res.send("Hello World!"));
   app.use("*", (req, res, next) => {

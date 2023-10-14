@@ -33,7 +33,7 @@ const productSchema = new Schema(
       required: true,
       trim: true,
     },
-    stock: {
+    quantity: {
       type: Number,
       default: 0,
       min: 0,
